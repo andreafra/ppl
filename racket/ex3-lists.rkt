@@ -17,6 +17,7 @@
 ; init = initial value of the accumulator ('acc')
 ; lst  = xs ys zs ...
 ; we can fold multiple lists at the same time
+; NOTE: It's tail-recursive
 
 ; sums all numbers
 (foldl + 0 numbers)
@@ -31,6 +32,7 @@
 
 ;; FOLDR - complexity O(N)
 ; works just like 'foldl' but starts at the END of the list
+; also, NOT tail-recursive
 (foldr show-sum
        0
        numbers)
@@ -59,6 +61,9 @@
          '() lst))
 
 (list-reverse-with-foldl numbers)
+
+;; FACTORIAL
+(foldl * 1 numbers)
 
 ;; FLATTEN A LIST
 (define (list-flatten lst)
