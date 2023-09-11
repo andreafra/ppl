@@ -1,3 +1,4 @@
 slides/
 .DS_Store
 *.rkt~
+*.beam
