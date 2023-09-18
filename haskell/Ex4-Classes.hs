@@ -19,9 +19,9 @@ Remember: Classes are usually abstract concepts, but we can define default imple
 data Tree a = Leaf a | Branch (Tree a) (Tree a)
 
 instance (Eq a) => Eq (Tree a) where -- 'Tree a' is an 'instance' of 'Eq a', meaning it implements '=='
-    Leaf a == Leaf b = a == b -- this is a 'method'
-    (Branch l1 r1) == (Branch l2 r2) = (l1 == l2) && (r1 == r2) -- this is the same 'method' again, we're doing pattern matching
-    _ == _ = False -- ditto
+  Leaf a == Leaf b = a == b -- this is a 'method'
+  (Branch l1 r1) == (Branch l2 r2) = (l1 == l2) && (r1 == r2) -- this is the same 'method' again, we're doing pattern matching
+  _ == _ = False -- ditto
 
 {-- Subclasses can be defined as:
 class (Eq a) => Ord a where
@@ -33,11 +33,11 @@ class (Eq a) => Ord a where
 -- it's basically the toString() of Java
 -- try printing Tree without implementing Show, it will return an error
 instance Show a => Show (Tree a) where
-    show (Leaf a) = show a
-    show (Branch x y) = "<" ++ show x ++ " | " ++ show y ++ ">"
+  show (Leaf a) = show a
+  show (Branch x y) = "<" ++ show x ++ " | " ++ show y ++ ">"
 
 -- DERIVING implementation from classes
 data Tree' a = Leaf' a | Branch' (Tree' a) (Tree' a)
-    deriving (Show, Eq)
+  deriving (Show, Eq)
 
 -- Example of custom class?
