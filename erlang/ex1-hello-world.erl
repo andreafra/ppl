@@ -11,6 +11,7 @@ hello_world() ->
 
 % Name must start with an uppercase letter,
 % because it's a VARIABLE
+% If its lowercase, it's an ATOM
 greet(Name) when is_list(Name) ->
     "Hello " ++ Name ++ "!";
 greet(_) -> "Invalid name".
@@ -22,9 +23,9 @@ greet_adult(Name, _) ->
     io:fwrite("Sorry ~s, you are too young!~n", [Name]).
 
 % A Person (which is a map) has:
-% - name
-% - age
-% - likes
+% - name (string)
+% - age (number)
+% - likes (list of atoms)
 greet_person(#{name := Name, age := Age, likes := Likes}) ->
     Greeting =
         if Age >= 18 ->
