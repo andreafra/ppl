@@ -11,7 +11,7 @@
 ; (map proc lst)
 (map (λ (x) (+ x 1)) numbers)
 
-;; FOLDL - complexity: O(1)
+;; FOLDL - space complexity: O(1)
 ; (foldl proc init lst)
 ; proc = (λ (x y z ... acc) body)
 ; init = initial value of the accumulator ('acc')
@@ -30,7 +30,7 @@
        0
        numbers)
 
-;; FOLDR - complexity O(N)
+;; FOLDR - space complexity O(N)
 ; works just like 'foldl' but starts at the END of the list
 ; also, NOT tail-recursive
 (foldr show-sum
