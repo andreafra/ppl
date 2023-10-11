@@ -18,7 +18,7 @@
 (define-syntax hello
   (syntax-rules ()
     [(_ names ...) ; <- 'names ...' matches a sequence of items like '"ada"', '"ada" "bob"'
-       (displayln (string-join (list names ...)))]))
+       (displayln (string-append "Hello " (string-join (list names ...))))]))
 
 (hello "ada" "bob" "carl")
 

@@ -27,3 +27,4 @@ Exercise sessions won't have a regular scheduling. Here you can find a log of wh
 | Date     | Language | Files | Recording
 |:---------|:---------|:------|:---------
 |2023-09-22| Racket   | [ex1-hello-world](racket/ex1-hello-world.rkt), [ex2-recursion](racket/ex2-recursion.rkt), [ex3-lists](racket/ex3-lists.rkt), [extras](racket/2023-09-22-extras.rkt) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/f32edb503b60103c93b7a2cd50a10612/playback)
+|2023-10-11| Racket   | [ex3-lists](racket/ex3-lists.rkt), [ex4-structs](racket/ex4-structs.rkt), [ex5-closures](racket/ex5-closures.rkt), [ex6-macros](racket/ex6-macros), [exercises](racket/2023-10-11-exercises.rkt) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/74062d914a4f103cadb6f66117d057bb/playback)

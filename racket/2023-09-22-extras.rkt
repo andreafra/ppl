@@ -26,8 +26,8 @@ x ; what's the value of 'x', 2 or 5?
 (define v (vector 1 2 3)) ; we can't use #(1 2 3) bc it's immutable
 
 (define (change-vector v)
-  (vector-set! v 1 0))
-(displayln v)
+  (vector-set! v 1 0) ; change item '2' to '0'
+  (displayln v))
 (change-vector v)
 v ; what do we expect the second value to be, 2 or 0? why?
 
@@ -85,6 +85,13 @@ ada
 
 ;; 4. '.' in procedure argument list
 ; ALSO when to use 'apply'
+(define (split-sum x . xs)
+  (displayln x) ; => 1
+  (displayln xs)  ; => '(2 3 4 5)
+  (+ x
+     (apply + xs))) ; = (+ <the contents of xs>)
+                    ; = (+ 2 3 4 5)
+(split-sum 1 2 3 4 5)
 
 ;; 5. foldl and foldr
 ; When I talked about foldl and foldr complexity, I forgot to mention

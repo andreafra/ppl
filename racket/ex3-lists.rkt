@@ -68,7 +68,7 @@
 ;; FLATTEN A LIST
 (define (list-flatten lst)
   (cond [(null? lst) lst]
-        [(not (list? lst)) (list lst)] ; '(lst) works as well
+        [(not (list? lst)) (list lst)] 
         [else (append (list-flatten (car lst)) (list-flatten (cdr lst)))]))
 
 (list-flatten '(1 (2) (3 4) (((5)) 6 7) 8))

@@ -2,8 +2,10 @@
 
 ;; Structs automatically create a set of procedures
 ; e.g. person? set-person-age?
-(struct person (name
-               (age #:mutable)))
+;; SEE https://docs.racket-lang.org/reference/define-struct.html
+(struct person
+  (name
+   [age #:mutable]))
 
 (define p1 (person "Ada" 24))
 (define p2 "Bob")
@@ -15,15 +17,25 @@
 (person-age p1)
 
 ;; Trees!
-(struct node ((value #:mutable)))
+(struct node
+  ([value #:mutable]))
 
-(struct binary-node node (left right))
+(struct binary-node node
+  (left
+   right))
 
 (define (leaf? n)
   (and (node? n) (not (binary-node? n))))
 
 ; let's make a simple tree
 (define a-tree (binary-node 2 (binary-node 3 (node 4) (node 2)) (node 1)))
+
+(define (print-tree n)
+  (displayln (node-value n))
+  (unless (leaf? n)
+    (print-tree (binary-node-left n))
+    (print-tree (binary-node-right n))))
+(print-tree a-tree)
 
 ;; ====== DISPLAY TREE NICELY ======
 ; feel free to ignore this code
@@ -45,6 +57,18 @@
 ; applies the function f(x) to the value 'x' of
 ; each tree node.
 
+#`(define (tree-apply f n)
+  (set-node-value! n (f (node-value n)))
+  (unless (leaf? n)
+           (begin
+             (tree-apply f (binary-node-left n))
+             (tree-apply f (binary-node-right n)))))
+
+#`(print-tree a-tree)
+
+
+
+
 (define (tree-apply f n)
   (set-node-value! n (f (node-value n)))
   (when (binary-node? n)
@@ -55,6 +79,8 @@
 
 (tree-show
  (tree-apply add1 a-tree))
+
+(print-tree a-tree)
 
 ; Optional: Make a (tree-map f n) procedure that
 ; does not operate 'in place' like (tree-apply f n) does.
