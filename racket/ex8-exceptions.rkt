@@ -5,10 +5,9 @@
 
 (define *handlers* '())
 ; *...* (called earmuffs) is a convention for mutable globals
-
+;; utils
 (define (push-handler proc)
   (set! *handlers* (cons proc *handlers*)))
-
 (define (pop-handler)
   (let ([head (car *handlers*)])
     (set! *handlers* (cdr *handlers*))
@@ -46,10 +45,11 @@
 
 (try
  (displayln "Before foo")
- (foo)
+ (foo) ; throws bad-foo
  (display "After foo") ; unreached code
- (catch "bad-foo"
+ (catch "math-exception"
         ; handle the exception here
         (displayln "I caught a throw.")
-        #f))
+        #f)) ;=> #f
+; ...
 ; if we try to catch an unregistered exception, we'll have an error: contract violation
