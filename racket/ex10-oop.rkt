@@ -123,3 +123,7 @@ bob.getName()
                      (displayln "I, Dan, can dance")))
 (obj-send dan dance)
 (obj-send carl dance) ; => error
+
+;; This is a possible way to define prototypes.
+;; Take a look at https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes
+;; to see how JavaScript implements prototypes.
