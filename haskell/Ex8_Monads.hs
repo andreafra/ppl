@@ -142,3 +142,38 @@ main = do
 -- just call 'main' in ghci, it will wait for user input
 
 -- WE are the side-effect. Main handles the side-effects (reading, writing to console) through the IO monad, which 'isolates' the impure portion of the code from the rest of the 'pure' code.
+
+-- ANOTHER EXAMPLE:
+square x = x ^ 2
+
+addOne x = x + 1
+
+x = addOne $ square 2
+
+-- we'd like the have a log of all operations performed:
+data NumberWithLogs = NumberWithLogs
+  { number :: Int,
+    logs :: [String]
+  }
+  deriving (Show)
+
+square' :: Int -> NumberWithLogs
+square' x = NumberWithLogs (x ^ 2) ["Squared " ++ show x ++ " to get " ++ show (x ^ 2)]
+
+addOne' :: NumberWithLogs -> NumberWithLogs
+addOne' x = NumberWithLogs (number x + 1) $ logs x ++ ["Added 1 to " ++ show (number x) ++ " to get " ++ show (number x + 1)]
+
+-- of course, we can't swap these two operations
+-- solutions?
+wrapWithLogs :: Int -> NumberWithLogs
+wrapWithLogs x = NumberWithLogs x []
+
+square'' :: NumberWithLogs -> NumberWithLogs
+square'' x = NumberWithLogs (number x ^ 2) $ logs x ++ ["Squared " ++ show (number x) ++ " to get " ++ show (number x ^ 2)]
+
+-- improvements?
+
+runWithLogs :: NumberWithLogs -> (Int -> NumberWithLogs) -> NumberWithLogs
+runWithLogs input transform =
+  let newNumberWithLogs = transform (number input)
+   in NumberWithLogs (number newNumberWithLogs) (logs input ++ logs newNumberWithLogs)

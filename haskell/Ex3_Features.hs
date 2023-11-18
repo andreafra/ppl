@@ -146,3 +146,19 @@ foldl' f z (x:xs) =
   vs
   foldl' (\x y -> 1) undefined [2] -- => error
 --}
+
+{-- COUPLE OF WORDS OF ADVICE from "Real World Haskell"
+Without some direction, there is an element of mystery to using seq effectively. Here are some useful rules for using it well.
+To have any effect, a seq expression must be the first thing evaluated in an expression.
+
+-- incorrect: seq is hidden by the application of someFunc
+-- since someFunc will be evaluated first, seq may occur too late
+hiddenInside x y = someFunc (x ‘seq‘ y)
+
+-- incorrect: a variation of the above mistake
+hiddenByLet x y z = let a = x ‘seq‘ someFunc y
+                    in anotherFunc a z
+-- correct: seq will be evaluated first, forcing evaluation of x
+onTheOutside x y = x ‘seq‘ someFunc y
+To strictly evaluate several values, chain applications of seq together.
+--}

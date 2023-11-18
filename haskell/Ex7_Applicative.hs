@@ -1,4 +1,25 @@
-module Ex6 where
+module Ex7 where
+
+import Ex6_Functors (Result)
+
+-- if we do:
+-- :t (+) <$> Ok 3
+-- we get a function and a value both wrapped into Ok (Result), but with no way to apply
+-- one to the other.
+
+-- For now, we don't really have an easy way to sum the values inside two Okes
+-- (<$> Ok 3) <$> ((+) <$> Ok 2)
+-- even something like this doesnt work, because we have a Ok wrapped in a Ok
+
+-- we'd like something with a signature like
+-- Ok (a -> b) -> Ok a -> Ok b
+-- to apply functions in the context (the Ok) of a functor
+
+-- we'd like to write
+-- (+) <$> Just 2 <*> Just 3
+
+-- ...AND IT WORKS! That's because
+-- (<*>) :: Applicative f => f (a -> b) -> f a -> f b
 
 -- Applicative functors
 -- ...continuing with the 'container' example
@@ -12,6 +33,7 @@ module Ex6 where
 
 -- For list, <*> is concatMap, which first maps a
 -- function to each list, and then concats the results.
+
 {--
     instance Applicative [] where
     pure x = [x]
@@ -22,7 +44,7 @@ module Ex6 where
 -- [2, 3, 4, 2, 4, 6, 11, 12, 13]
 
 -- WHY?
--- 'fmap' limits us to apply simple old FUNCTIONS to a
+-- 'fmap' limits us to apply FUNCTIONS to a
 -- 'container'. What if the function(s) we want to
 -- apply are inside another 'container'? We can't do
 -- that with functors. Hence, applicative to the rescue.
