@@ -59,3 +59,11 @@ import Ex6_Functors (Result)
 -- we can write `pure f <*> x <*> y <*> ...`
 -- as `fmap f x <*> y <*> ...` or even better
 -- `f <$> x <*> y <*> ...` (<$> is infix of 'fmap')
+
+{--
+APPLICATIVE RULES:
+pure id <*> v = v                            -- Identity
+pure f <*> pure x = pure (f x)               -- Homomorphism
+u <*> pure y = pure ($ y) <*> u              -- Interchange
+pure (.) <*> u <*> v <*> w = u <*> (v <*> w) -- Composition
+--}

@@ -1,4 +1,11 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+{-# HLINT ignore "Use <&>" #-}
 module Ex7 where
+
+import Data.Time (UTCTime (utctDay), getCurrentTime)
+import Data.Time.Calendar
+import Text.Read (readMaybe)
 
 {-- Let's test what we've learned by
 solving this issue:
@@ -101,10 +108,13 @@ instance Applicative Result where
   pure = Ok
   Ok f <*> Ok x = Ok (f x)
   _ <*> Err = Err -- 'whatever' applied to an Err is an Err
+  Err <*> _ = Err
 
 instance Monad Result where
   Ok x >>= f = f x
   Err >>= _ = Err
+
+-- we don't define return because return = pure by default!
 
 mEval :: Expr -> Result Int
 mEval (Val n) = Ok n
@@ -120,6 +130,13 @@ testErr = mEval $ Div (Val 3) (Val 0)
 -- what we've just done is redefining the Maybe monad
 -- Simply swap:
 -- Result -> Maybe, Ok -> Just and Err -> Nothing.
+
+-- MONADS HAVE RULES!
+-- 1. LEFT IDENTITY: `return x >>= f` is the same as `f x`
+-- 2. RIGHT IDENTITY: `m >>= return` is the same as `m`
+-- 3. ASSOCIATIVITY: Doing `(m >>= f) >>= g` is like doing
+--                   `m >>= (\x -> f x >>= g)`
+
 -- It bridges the values from the PURE world to the
 -- IMPURE world.
 -- Unfortunately, you can't really write real programs
@@ -138,12 +155,29 @@ main = do
   putStrLn "Hi, what's your name?"
   msg <- greet <$> getLine
   putStrLn msg
+  putStrLn "How old are you?"
+  msg <- getLine
+  -- we can use let to declare local values (in the do block)
+  -- NOTE that we don't use `in`
+  let age = readMaybe msg :: Maybe Int
+  -- Getting the Date is an IO operation.
+  -- We need to handle the IO monad again!
+  currentTime <- getCurrentTime
+  let (year, _, _) = toGregorian . utctDay $ currentTime
+  case age of
+    Just a -> do
+      let birthYear = fromInteger year - a
+      putStrLn $ "You were born in " ++ show birthYear
+    _ -> putStrLn "Something went wrong!"
 
 -- just call 'main' in ghci, it will wait for user input
 
 -- WE are the side-effect. Main handles the side-effects (reading, writing to console) through the IO monad, which 'isolates' the impure portion of the code from the rest of the 'pure' code.
 
--- ANOTHER EXAMPLE:
+-- Fun Fact: The IO Monad is implemented as a State Monad, where the State that get passed around is the real world!
+
+-- ANOTHER EXAMPLE OF MONADS FROM SCRATCH:
+-- (This works if you want to reimplement monads in other languages)
 square x = x ^ 2
 
 addOne x = x + 1
@@ -157,19 +191,19 @@ data NumberWithLogs = NumberWithLogs
   }
   deriving (Show)
 
-square' :: Int -> NumberWithLogs
-square' x = NumberWithLogs (x ^ 2) ["Squared " ++ show x ++ " to get " ++ show (x ^ 2)]
+square1 :: Int -> NumberWithLogs
+square1 x = NumberWithLogs (x ^ 2) ["Squared " ++ show x ++ " to get " ++ show (x ^ 2)]
 
-addOne' :: NumberWithLogs -> NumberWithLogs
-addOne' x = NumberWithLogs (number x + 1) $ logs x ++ ["Added 1 to " ++ show (number x) ++ " to get " ++ show (number x + 1)]
+addOne1 :: NumberWithLogs -> NumberWithLogs
+addOne1 x = NumberWithLogs (number x + 1) $ logs x ++ ["Added 1 to " ++ show (number x) ++ " to get " ++ show (number x + 1)]
 
 -- of course, we can't swap these two operations
 -- solutions?
 wrapWithLogs :: Int -> NumberWithLogs
 wrapWithLogs x = NumberWithLogs x []
 
-square'' :: NumberWithLogs -> NumberWithLogs
-square'' x = NumberWithLogs (number x ^ 2) $ logs x ++ ["Squared " ++ show (number x) ++ " to get " ++ show (number x ^ 2)]
+square2 :: NumberWithLogs -> NumberWithLogs
+square2 x = NumberWithLogs (number x ^ 2) $ logs x ++ ["Squared " ++ show (number x) ++ " to get " ++ show (number x ^ 2)]
 
 -- improvements?
 
@@ -177,3 +211,17 @@ runWithLogs :: NumberWithLogs -> (Int -> NumberWithLogs) -> NumberWithLogs
 runWithLogs input transform =
   let newNumberWithLogs = transform (number input)
    in NumberWithLogs (number newNumberWithLogs) (logs input ++ logs newNumberWithLogs)
+
+-- (we need to reimplement addOne :: Int -> NumberWithLogs)
+addOne2 :: Int -> NumberWithLogs
+addOne2 x = NumberWithLogs (x + 1) ["Added 1 to " ++ show x ++ " to get " ++ show (x + 1)]
+
+a = wrapWithLogs 2
+
+b = runWithLogs a square1
+
+c = b `runWithLogs` addOne2
+
+-- What is `wrapWithLogs` in a monad context? (return)
+-- What is `runWithLogs` in a monad context? (bind)
+-- Are Monad Laws valid? (yes)
