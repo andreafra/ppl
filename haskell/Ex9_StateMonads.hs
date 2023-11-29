@@ -1,83 +1,92 @@
-module Ex8 where
-
 import Control.Monad.State
 
--- Define a type for snacks and their prices
-data Snack = Snack
-  { snackName :: String,
-    snackPrice :: Int,
-    snackQuantity :: Int
+-- By default, in haskell, it's not very easy to
+-- change a (global) state of your application.
+-- In other programming languages, you simply
+-- change some value x = 5; x = 6; x = 0...
+
+-- The state monad helps us to do that!
+
+type Stack = [Int]
+
+pop :: Stack -> (Int, Stack)
+pop (x : xs) = (x, xs)
+
+push :: Int -> Stack -> ((), Stack)
+push a xs = ((), a : xs)
+
+stackManip :: Stack -> (Int, Stack)
+stackManip stack =
+  let ((), newStack1) = push 3 stack
+      (a, newStack2) = pop newStack1
+   in pop newStack2
+
+-- it works... but we need to keep track of the stack all
+-- the time. That's kinda boring. Wouldn't you prefer:
+-- stackManip = do
+--     push 3
+--     a <- pop
+--     pop
+
+-- STATE = STATEFUL COMPUTATION
+
+-- STATE IS DEFINED AS:
+-- newtype State s a = State {runState :: s -> (a, s)}
+-- manipulates s
+-- returns a
+
+-- THE STATE MONAD IS IMPLEMENTED AS:
+-- instance Monad (State s) where
+--     return x = State $ \s -> (x,s)
+--     (State h) >>= f = State $ \s ->
+--         let (a, newState) = h s
+--             (State g) = f a
+--         in  g newState
+--
+-- The result of feeding a (stateful computation) to a
+-- function must be a function (again)
+
+popM :: State Stack Int
+popM = state $ \(x : xs) -> (x, xs)
+
+pushM :: Int -> State Stack ()
+pushM a = state $ \xs -> ((), a : xs)
+
+stackManipM :: State Stack Int
+stackManipM = do
+  pushM 3
+  a <- popM
+  popM
+
+-- Another Example
+
+data RobotState = RobotState
+  { position :: (Int, Int),
+    holdingObject :: Bool
   }
   deriving (Show)
 
--- Define the vending machine state
-data VendingMachineState = VendingMachineState
-  { inventory :: [Snack], -- List of snacks and their quantities
-    depositedMoney :: Int -- Amount of money deposited by the user
-  }
-  deriving (Show)
+moveTo :: (Int, Int) -> State RobotState ()
+moveTo newPos = modify (\s -> s {position = newPos})
 
--- Define a type synonym for the State monad with VendingMachineState
-type VendingMachine a = State VendingMachineState a
+pickUpObject :: State RobotState ()
+pickUpObject = modify (\s -> s {holdingObject = True})
 
--- Function to add a snack to the vending machine inventory
-addSnack :: Snack -> VendingMachine ()
-addSnack snack = do
-  state <- get
-  -- get current inventory, append it to new snack
-  let updatedInventory = snack : inventory state
-  put $ state {inventory = updatedInventory}
+robotActions :: State RobotState ()
+robotActions = do
+  moveTo (3, 4)
+  pickUpObject
+  moveTo (1, 2)
 
--- Function to deposit money into the vending machine
-depositMoney :: Int -> VendingMachine ()
-depositMoney amount = do
-  state <- get
-  let updatedMoney = depositedMoney state + amount
-  put $ state {depositedMoney = updatedMoney}
+state0 =
+  RobotState
+    { position = (0, 0),
+      holdingObject = False
+    }
 
--- Function to purchase a snack
-purchaseSnack :: String -> VendingMachine (Maybe Snack)
-purchaseSnack snackId = do
-  state <- get
-  let snacks = [(snackName snack, snack) | snack <- inventory state]
-  case lookup snackId snacks of
-    Just
-      Snack
-        { snackName = name,
-          snackPrice = price,
-          snackQuantity = quantity
-        }
-        | quantity > 0,
-          depositedMoney state > price -> do
-            -- Update state: decrement quantity and deduct money
-            let updatedInventory = Snack name price (quantity - 1) : filter (\s -> snackId /= snackName s) (inventory state)
-                updatedMoney = depositedMoney state - price
-            put $
-              state
-                { inventory = updatedInventory,
-                  depositedMoney = updatedMoney
-                }
-            return $ Just $ Snack name price 1
-    _ -> return Nothing
+state1 = runState robotActions state0
 
--- Example vending machine operations
-exampleVendingMachine :: VendingMachine (Maybe Snack)
-exampleVendingMachine = do
-  addSnack (Snack "Chips" 50 5)
-  addSnack (Snack "Soda" 75 10)
-  depositMoney 100
-  purchaseSnack "Chips"
-
-main :: IO ()
-main = do
-  putStrLn "Initial State:"
-  print initialState
-  let (result, finalState) = runState exampleVendingMachine initialState
-  putStrLn "Final State:"
-  print finalState
-  putStrLn "Result of Purchase:"
-  print result
-
--- Initial vending machine state with no inventory and no deposited money
-initialState :: VendingMachineState
-initialState = VendingMachineState {inventory = [], depositedMoney = 0}
+-- We also have `get` and `put`
+-- get = state $ \s -> (s,s) :: State s s
+-- put newState = state $ \s -> ((), newState) :: s -> State s ()
+-- modify f = do { x <- get ; put (f x) } :: (s -> s) -> State s ()
