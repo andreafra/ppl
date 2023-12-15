@@ -33,7 +33,7 @@ Exercise sessions won't have a regular scheduling. Here you can find a log of wh
 2023-11-17 | Haskell | [Ex4_Classes](haskell/Ex4_Classes.hs) [Ex5_Foldable](haskell/Ex5_Foldable.hs) [Ex6_Functors](haskell/Ex6_Functors.hs) [Ex7_Applicative](haskell/Ex7_Applicative.hs) [Exercises](haskell/2023_11_17.hs) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/82635df1676b103ca7ff26a604139aa8/playback)
 |2023-11-29| Haskell | [Ex9_StateMonads](haskell/Ex9_StateMonads.hs) [Exercises](haskell/2023_11_29.hs) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/8ba9672870d8103cb977b2240e49f628/playback)
 |2023-12-13| Erlang | [Ex1: Basics](erlang/ex1_hello_world.erl) [Ex2: Actor Model](erlang/ex2_actor_model.erl) [Exercises](erlang/ex_2023_12_13.erl) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/14860c7f7bd9103c8abf8aa20fbc8295/playback)
-|2023-12-15| Extras | ??? | [VOD](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+|2023-12-15| Extras | [Racket](racket/2023-12-15-exercises.rkt) [Haskell](haskell/2023_12_15.hs) [Erlang](erlang/ex_2023_12_15.erl) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/ba38a7c37d6b103cabd41ad9eebc50a0/playback)
 |2023-12-20| Extras | ??? | [VOD](https://youtu.be/fC7oUOUEEi4)
 
 ## Questions
