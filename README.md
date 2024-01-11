@@ -3,7 +3,7 @@
 
 You can download [DrRacket](https://download.racket-lang.org/) to run the code in the examples yourself!
 
-A primer on Racket (the slides you've briefly seen during the exercises) are [here](slides/Racket-intro.pdf).
+A primer on Racket (the slides you've briefly seen during the exercises) is [here](slides/Racket-intro.pdf).
 
 Don't forget to check the 'extras' files for additional examples or stuff I might have forgot to mention in last class. Don't worry, we'll get back on those topics the next time.
 
@@ -31,7 +31,7 @@ Exercise sessions won't have a regular scheduling. Here you can find a log of wh
 |2023-10-18| Racket   | [ex7-continuations](racket/ex7-continuations.rkt), [ex8-exceptions](racket/ex8-exceptions.rkt), [ex9-non-determinism](racket/ex9-non-determinism.rkt), [ex10-oop.rkt](racket/ex10-oop.rkt) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/357f84084fcf103cafdf76f88f404a10/playback)
 |2023-10-27| Haskell  | [Ex1_HelloWorld](haskell/Ex1_HelloWorld.hs) [Ex2_Types](haskell/Ex2_Types.hs) [Ex3_Features](haskell/Ex3_Features.hs) [Exercises](haskell/2023-10-27.hs) | [VOD](https://politecnicomilano.webex.com/politecnicomilano/ldr.php?RCID=32693e4eadf0cb33ff682ce20b69646e)
 |2023-11-17 | Haskell | [Ex4_Classes](haskell/Ex4_Classes.hs) [Ex5_Foldable](haskell/Ex5_Foldable.hs) [Ex6_Functors](haskell/Ex6_Functors.hs) [Ex7_Applicative](haskell/Ex7_Applicative.hs) [Exercises](haskell/2023_11_17.hs) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/82635df1676b103ca7ff26a604139aa8/playback)
-|2023-11-17 | Haskell | [Ex](haskell/Ex8_Monads.hs) [Exercises](haskell/2023_11_22.hs.hs) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/3ea12d226b59103c8febd62d72830b1d/playback)
+|2023-11-22 | Haskell | [Ex8_Monads](haskell/Ex8_Monads.hs) [Exercises](haskell/2023_11_22.hs.hs) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/3ea12d226b59103c8febd62d72830b1d/playback)
 |2023-11-29| Haskell | [Ex9_StateMonads](haskell/Ex9_StateMonads.hs) [Exercises](haskell/2023_11_29.hs) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/8ba9672870d8103cb977b2240e49f628/playback)
 |2023-12-13| Erlang | [Ex1: Basics](erlang/ex1_hello_world.erl) [Ex2: Actor Model](erlang/ex2_actor_model.erl) [Exercises](erlang/ex_2023_12_13.erl) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/14860c7f7bd9103c8abf8aa20fbc8295/playback)
 |2023-12-15| Extras | [Racket](racket/2023-12-15-exercises.rkt) [Haskell](haskell/2023_12_15.hs) [Erlang](erlang/ex_2023_12_15.erl) | [VOD](https://politecnicomilano.webex.com/webappng/sites/politecnicomilano/recording/ba38a7c37d6b103cabd41ad9eebc50a0/playback)
