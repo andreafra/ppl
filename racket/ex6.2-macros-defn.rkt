@@ -29,7 +29,7 @@
              [(= arg-n (length 'PARAMS)) (apply (lambda PARAMS BODY ...) arg-v)] ...))))]))
 
 (defn f
-  ([] (display "0 ARGS") (displayln " and something else"))
+  ([] (display "0 ARGS"))
   ([a] (displayln "1 ARGS"))
   ([a b] (displayln "2 ARGS")))
 

@@ -16,12 +16,12 @@
 (define (throw x)
   (if (pair? *handlers*) ; = (not (empty? *handlers*))
       ((pop-handler) x) ; calling the return of 'pop-handler' on 'x'
-      (apply error x)))
+      (error (string-append "Error: too many throws. Received " (~a x)  ))))
 
 ; example:
-; (push-handler displayln)
-; (throw 5) ; => 5
-; (throw 5) ; => error
+ (push-handler displayln)
+ (throw 5) ; => 5
+ (throw 5) ; => error
 
 (define-syntax try
   (syntax-rules (catch)
@@ -41,7 +41,7 @@
 
 (define (foo)
   (displayln "Foo")
-  (throw "bad-foo"))
+  (throw "math-exception"))
 
 (try
  (displayln "Before foo")
