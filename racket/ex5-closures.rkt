@@ -10,7 +10,7 @@
 (define (make-counter)
   (let ((count 0)) ; environment - can't be accessed from outside the instance of 'make-counter'
     (lambda () ; return a function - state is kept when changing the variables in the environment
-      (set! count (add1 count))
+      (set! count (+ 1 count))
       count)))
 
 (define counter1 (make-counter))
@@ -23,3 +23,4 @@
 (displayln (counter2)) ; => 2
 
 ;; If you are familiar with JavaScript and ReactJS hooks, the 'useState' hook is a closure.
+;; https://medium.com/swlh/learn-by-implementing-reacts-usestate-and-useeffect-a-simplified-overview-ea8126705a88

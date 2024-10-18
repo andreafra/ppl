@@ -16,8 +16,8 @@ class Person {
         this.age = age
     }
 
-    int growOlder(years: int) {
-        this.age += int
+    int growOlder(int howManyYears) {
+        this.age += howManyYears
     }
 }
 
@@ -63,7 +63,7 @@ bob.getName()
   (let ([parent (new-person name age)] ; inherits attrs/methods
         [power init-power])
     (define (use-power)
-      (display name)(display " uses ")(display power)(displayln "!"))
+      (printf "~a uses ~a!\n" name power))
     (define (show)
       (parent 'show)
       (display "Power: ")(displayln power))
@@ -120,10 +120,22 @@ bob.getName()
 (obj-set dan name "Dan") ; this could be a setter method, if you want
 (obj-send dan show)
 (obj-set dan dance (λ (self)
-                     (displayln "I, Dan, can dance")))
+                     (printf "I am ~a and I can dance" (obj-get self name))))
 (obj-send dan dance)
-(obj-send carl dance) ; => error
+; (obj-send carl dance) ; => error
 
 ;; This is a possible way to define prototypes.
 ;; Take a look at https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes
 ;; to see how JavaScript implements prototypes.
+
+
+
+
+
+
+
+
+
+
+
+
