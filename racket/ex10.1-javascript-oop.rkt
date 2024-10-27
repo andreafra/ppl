@@ -43,7 +43,7 @@ Object
 ; Create String prototype, extending
 (define String (obj-create Object))
 String
-(obj-call String 'toString)
+(obj-call String "toString")
 (newline)
 (obj-set String "toString" (λ (self)
                            (displayln (obj-get self "value"))))
