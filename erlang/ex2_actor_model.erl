@@ -70,7 +70,7 @@ test_spawn_link() ->
 %% Test that child lives if parent dies
 dying_parent(N) ->
     spawn(fun() -> child(N) end),
-    io:format("[P] I'm gonna die soon...~n"),
+    io:format("[P] I'm dying soon...~n"),
     receive
     after 3000 ->
         io:format("[P] *dead*~n"),

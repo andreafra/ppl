@@ -51,6 +51,9 @@ greet_adult(_, _) ->
 greet_person(#{name := Name, age := Age, likes := Likes}) ->
     Greeting =
         if
+            % IFs can accept only a certain selection of expressions,
+            % called Guard Expressions.
+            % https://www.erlang.org/doc/system/expressions.html#guard-expressions
             Age >= 18 ->
                 case lists:member(soccer, Likes) of
                     true -> "Hello " ++ Name ++ ", I like soccer, too!";
