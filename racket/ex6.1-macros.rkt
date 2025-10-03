@@ -33,6 +33,23 @@
 
 (newline)(newline)
 
+; LET'S GET BACK TO THE 'AND' MACRO
+
+(define-syntax and-m
+  (syntax-rules ()
+    [(_) #t]
+    [(_ COND) COND]
+    [(_ COND OTHER-CONDS ...)
+     (if COND
+         (and-m OTHER-CONDS ...)
+         #f)]))
+
+(and-m)
+(and-m 42)
+(and-m 42 #t #f)
+
+(newline)(newline)
+
 ; IS THERE ANYTHING WE CAN'T IMPLEMENT AS A FUNCTION,
 ; BUT REQUIRES A MACRO?
 
@@ -59,20 +76,3 @@
 
 (report-m (* 1 2 3 4))
 
-
-(newline)(newline)
-
-; LET'S GET BACK TO THE 'AND' MACRO
-
-(define-syntax and-m
-  (syntax-rules ()
-    [(_) #t]
-    [(_ COND) COND]
-    [(_ COND OTHER-CONDS ...)
-     (if COND
-         (and-m OTHER-CONDS ...)
-         #f)]))
-
-(and-m)
-(and-m 42)
-(and-m 42 #t #f)

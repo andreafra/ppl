@@ -24,3 +24,30 @@
 
 ;; If you are familiar with JavaScript and ReactJS hooks, the 'useState' hook is a closure.
 ;; https://medium.com/swlh/learn-by-implementing-reacts-usestate-and-useeffect-a-simplified-overview-ea8126705a88
+
+(newline)
+(newline)
+;; better-counter
+
+(struct counter
+  (increase decrease value))
+
+(define (make-better-counter)
+  (let ([count 0])
+    (counter
+     (lambda () ; increase
+       (set! count (+ 1 count))
+       count)
+     (lambda () ; decrease
+       (set! count (- 1 count)))
+     ;; value (we need a lambda otherwise count is
+     ;; 'copied' into the struct'
+     (lambda () count))))
+(define counter3 (make-better-counter))
+(displayln ((counter-value counter3)))
+(displayln ((counter-increase counter3)))
+(displayln ((counter-increase counter3)))
+;; in another programming language, this would be
+;; console.log(counter3.increase())
+
+(displayln ((counter-value counter3)))
