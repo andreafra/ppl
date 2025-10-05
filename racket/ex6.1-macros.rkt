@@ -12,7 +12,7 @@
   (display x) (display " ") (displayln xs)
   (if (null? xs)
       x
-      (when (first xs)
+      (when x 
         (apply my-and xs))))
 
 (if (equal? (my-and #t (even? 4) (number? 4)) #t)
