@@ -1,4 +1,4 @@
-# Principles of Programming Languages: Exercises (A.Y. 2023/24)
+# Principles of Programming Languages: Exercises (A.Y. 2023-2025)
 ## Racket
 
 You can download [DrRacket](https://download.racket-lang.org/) to run the code in the examples yourself!
