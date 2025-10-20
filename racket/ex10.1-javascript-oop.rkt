@@ -23,8 +23,9 @@
   (hash-ref object key
             (λ ()
               (let ([prototype (obj-get-prototype object)])
-                (when prototype
-                  (obj-find prototype key))))))
+                (if prototype
+                  (obj-find prototype key)
+                  (error "no valid implementation found"))))))
     
 
 (define-syntax-rule (obj-call object key args ...)
@@ -37,7 +38,8 @@
 (define Object (obj-create))
 (obj-set Object "toString" (λ (self) (displayln "[object Object]")))
 Object
-(obj-call Object "toStringg")
+(obj-call Object "toString") ; this works
+(obj-call Object "toStringgg") ; this does not
 (newline)
 
 ; Create String prototype, extending
