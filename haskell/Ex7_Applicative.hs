@@ -67,3 +67,18 @@ pure f <*> pure x = pure (f x)               -- Homomorphism
 u <*> pure y = pure ($ y) <*> u              -- Interchange
 pure (.) <*> u <*> v <*> w = u <*> (v <*> w) -- Composition
 --}
+
+{--
+
+Applicative is mostly used to apply NON-UNARY functions
+to values wrapped in a context.
+
+(+) <$> Just 3 <*> Just 2 --> Just 5
+pure (+) <*> Just 3 <*> Just 2 --> Just 5
+
+This is also called lifting, and we have an alias
+for that with liftA2:
+
+liftA2 (+) (Just 3) (Just 2) --> Just 5
+
+--}
