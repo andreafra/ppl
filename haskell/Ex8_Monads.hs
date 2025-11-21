@@ -225,3 +225,59 @@ c = b `runWithLogs` addOne2
 -- What is `wrapWithLogs` in a monad context? (return)
 -- What is `runWithLogs` in a monad context? (bind)
 -- Are Monad Laws valid? (yes)
+
+-- At this point, we can try and reimplement `runWithLogs` as a monad
+-- Let's implement functor and applicative first
+
+data WithLogs a = WithLogs
+  { val :: a,
+    log :: [String]
+  }
+  deriving (Show)
+
+instance Functor WithLogs where
+  -- fmap :: (a -> b) -> WithLogs a -> WithLogs b
+  fmap f (WithLogs val log) = WithLogs (f val) log
+
+instance Applicative WithLogs where
+  pure :: a -> WithLogs a
+  pure v = WithLogs v []
+
+  -- (<*>) :: WithLogs (a -> b) -> WithLogs a -> WithLogs b
+  (WithLogs f logf) <*> (WithLogs v logv) = WithLogs (f v) (logf ++ logv)
+
+instance Monad WithLogs where
+  -- (>>=) :: WithLogs a -> (a -> WithLogs b) -> WithLogs b
+  (WithLogs v logv) >>= f =
+    let (WithLogs v' logv') = f v
+     in WithLogs v' (logv ++ logv')
+
+addLog :: [String] -> WithLogs a -> WithLogs a
+addLog l (WithLogs v logv) = WithLogs v (logv ++ l)
+
+addOneM :: (Num a) => a -> WithLogs a
+addOneM x = do
+  addLog ["Added 1"] $ return $ x + 1
+
+multByTwoM :: (Num a) => a -> WithLogs a
+multByTwoM x = do
+  addLog ["Mult by 2"] $ return $ x * 2
+
+withLogs :: a -> WithLogs a
+withLogs = pure
+
+l = do
+  l1 <- withLogs 5
+  l2 <- addOneM l1
+  l3 <- multByTwoM l2
+  return l3
+
+l' =
+  withLogs 5
+    >>= ( \l1 ->
+            addOneM l1
+              >>= ( \l2 ->
+                      multByTwoM l2
+                        >>= (\l3 -> return l3)
+                  )
+        )
